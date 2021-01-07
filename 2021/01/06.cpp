@@ -22,34 +22,46 @@ class Solution {
 public:
     int findKthPositive(vector<int>& arr, int k) {
         int n = arr.size();
-        int diff;
+        
+        // Will hold the number of missing integers between two integers
+        int missing;
         
         if (k > arr[n - 1]) 
             // Form 0 to k there are only n integers on arr
             return k + n;
     
-        diff = arr[n - 1] - n;
-        // There are diff integers missing from 0 to arr[n-1]
-        if (k > diff)
-            // There are k - diff integers missing after arr[n - 1]
-            return arr[n - 1] + k - diff;
+        // From 0 to arr[n-1] there are only n integers on arr
+        // the rest is missing
+        missing = arr[n - 1] - n;
         
-        // Previous integer;
+        if (k > missing)
+            // If there were no integers missing from 0 to arr[n-1]
+            // there would be k integers missing after arr[n-1]
+            // Otherwise there would be `k - missing` integers missing after arr[n - 1]
+            return arr[n - 1] + k - missing;
+        
+        // The number of missing integers between arr[i-1] and arr[i] 
+        // can be calculated as `arr[i] - 1 - arr[i-1]`.
+        // As there are no arr[i - 1] when i = 0
+        // I created a "fake" previous to calculate missing integers from 0 to arr[0]
         int p = 0;
         
         for (int i = 0; i < n; i++) {
-            // missing integers = diff - 1
-            // Ex.: arr[i] = 3, arr[i-1] = 1, diff = 2, missing = 1
-            diff = arr[i] - p;
-            if (k < diff)
+            // missing = arr[i] - 1 - arr[i - 1] 
+            missing = arr[i] - 1 - p;
+            
+            if (k <= missing)
                 // There are k or more missing numbers 
-                // between arr[i-1] and arr[i]
+                // between p (arr[i-1]) and arr[i]
                 return p + k;
             
-            k -= diff-1;
+            k -= missing;
+            
+            // p becomes arr[i-1]
             p = arr[i];
         }
         
+        // This shouldn't be executed as it was already calculated on the second if
         return arr[n-1] + k;
     }
 };

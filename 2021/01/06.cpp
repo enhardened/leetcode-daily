@@ -24,24 +24,20 @@ public:
         int n = arr.size();
         int diff;
         
-        // arr[i-1] wouldn't exist for i = 0
-        // so, this situations is being handled outside of the for loop
-        // but the logic is the same
-        if (k < arr[0]) 
-            return k;
+        // Previous integer;
+        int p = 0;
         
-        k -= arr[0] - 1;
-        
-        for (int i = 1; i < n; i++) {
+        for (int i = 0; i < n; i++) {
             // missing integers = diff - 1
             // Ex.: arr[i] = 3, arr[i-1] = 1, diff = 2, missing = 1
-            diff = arr[i] - arr[i-1];
+            diff = arr[i] - p;
             if (k < diff)
                 // There are k or more missing numbers 
                 // between arr[i-1] and arr[i]
-                return arr[i-1] + k;
+                return p + k;
             
             k -= diff-1;
+            p = arr[i];
         }
         
         return arr[n-1] + k;

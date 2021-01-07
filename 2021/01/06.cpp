@@ -24,12 +24,6 @@ public:
         int n = arr.size();
         int diff;
         
-        // This would still be O(1) if not written here
-        // as it is the same as the first for iteration
-        if (k < arr[0]) 
-            // There are more the k missing integers from 0 to arr[0]
-            return k;
-        
         if (k > arr[n - 1]) 
             // Form 0 to k there are only n integers on arr
             return k + n;

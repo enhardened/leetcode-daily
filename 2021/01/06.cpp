@@ -18,13 +18,18 @@ Input: arr = [1,2,3,4], k = 2
 Output: 6
 Explanation: The missing positive integers are [5,6,7,...]. The 2nd missing positive integer is 6.
 */
-// Jump
 class Solution {
 public:
     int findKthPositive(vector<int>& arr, int k) {
+        // O(1) when k is less than the first integer
+        if (k < arr[0]) return k;
+        
+        // O(1) for k > arr[last]
+        if (k > arr[arr.size() - 1]) return arr.size() + k;
+        
         int c = 0; // current integer being checked
         int i = 0; // current arr index
-        int j = 0; // variable to calculate the "jump" to the next missing integer
+        int j = 0;
         
         while (k > 0) {
             c++;

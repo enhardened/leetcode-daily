@@ -21,30 +21,29 @@ Explanation: The missing positive integers are [5,6,7,...]. The 2nd missing posi
 class Solution {
 public:
     int findKthPositive(vector<int>& arr, int k) {
-        // O(1) when k is less than the first integer
-        if (k < arr[0]) return k;
+        int n = arr.size();
+        int diff;
         
-        // O(1) for k > arr[last]
-        if (k > arr[arr.size() - 1]) return arr.size() + k;
+        // arr[i-1] wouldn't exist for i = 0
+        // so, this situations is being handled outside of the for loop
+        // but the logic is the same
+        if (k < arr[0]) 
+            return k;
         
-        int c = 0; // current integer being checked
-        int i = 0; // current arr index
-        int j = 0;
+        k -= arr[0] - 1;
         
-        while (k > 0) {
-            c++;
-                
-            if (i < arr.size() && arr[i] == c)
-                i++;
-            else {
-                j = i < arr.size()
-                    ? min(arr[i] - c, k)
-                    : k;
-                k -= j;
-                c += j-1;
-            }
+        for (int i = 1; i < n; i++) {
+            // missing integers = diff - 1
+            // Ex.: arr[i] = 3, arr[i-1] = 1, diff = 2, missing = 1
+            diff = arr[i] - arr[i-1];
+            if (k < diff)
+                // There are k or more missing numbers 
+                // between arr[i-1] and arr[i]
+                return arr[i-1] + k;
+            
+            k -= diff-1;
         }
         
-        return c;
+        return arr[n-1] + k;
     }
 };

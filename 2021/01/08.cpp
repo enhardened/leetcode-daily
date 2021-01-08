@@ -69,11 +69,6 @@ public:
         }
         
         // Are they both at the end? (are both "words" the same size?)
-        int last_i1 = word1.size(); // while stop when i == word.size()
-        int last_i2 = word2.size();
-        int last_j1 = word1[last_i1 - 1].size() - 1;
-        int last_j2 = word1[last_i2 - 1].size() - 1;
-       
         return (i1 == word1.size() && i2 == word2.size() 
                 && j1 == 0 && j2 == 0);
     }

@@ -36,16 +36,56 @@ Constraints:
 word1[i] and word2[i] consist of lowercase letters.
 */
 class Solution {
+    struct array_string_iterator {
+    private:
+    vector<string>& word;
+    vector<string>::iterator i = word.begin();
+    string::iterator j = word[0].begin();
+    
+    public:
+    array_string_iterator(vector<string>& word) : word(word) {
+        // nothing to do here
+    }
+    
+    vector<string>::iterator end() {
+        return word.end();
+    }
+    
+    bool operator!= (vector<string>::iterator b) {
+        return i != b;
+    }
+    
+    auto& operator* () {
+        return *j;
+    }
+    
+    void operator++ () {
+        ++j;
+        
+        if (j == i->end()) {
+            ++i;
+            
+            if (i != word.end())
+                j = i->begin();
+        }
+    }
+};
 public:
     bool arrayStringsAreEqual(vector<string>& word1, vector<string>& word2) {
-        string w1 = "", w2 = "";
+        array_string_iterator a(word1);
+        array_string_iterator b(word2);
         
-        for (auto w : word1)
-            w1 += w;
-        
-        for (auto w : word2) 
-            w2 += w;
+        while (a != a.end() && b != b.end()) {
+            // cout << *a << " " << *b << endl;
+            
+            if (*a != *b)
+                return false;
+            ++a;
+            ++b;
+        }
     
-        return w1 == w2;
+        // cout << *a << " " << *b << endl;
+        // One of is at the end, but are both?
+        return *a == *b;
     }
 };

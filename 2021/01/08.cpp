@@ -35,41 +35,17 @@ Constraints:
 1 <= sum(word1[i].length), sum(word2[i].length) <= 103
 word1[i] and word2[i] consist of lowercase letters.
 */
-
 class Solution {
 public:
-    /*
-    This functions was refactored on whiteboard. It's not exactly the first version.
-
-    w: "word" array
-    i: word index
-    j: letter index
-    */
-    void updateIndexes(vector<string>& w, int& i, int& j) {
-        if (j + 1 < w[i].length())
-            // the ith word didn't finished
-            j += 1;
-        else {
-            // going to the next word
-            i += 1;
-            j = 0;
-        }
-    }
-    
     bool arrayStringsAreEqual(vector<string>& word1, vector<string>& word2) {
-        int i1 = 0, j1 = 0,
-            i2 = 0, j2 = 0;
+        string w1 = "", w2 = "";
         
-        while (i1 < word1.size() && i2 < word2.size()) {
-            if (word1[i1][j1] != word2[i2][j2])
-                return false;
-            
-            updateIndexes(word1, i1, j1);
-            updateIndexes(word2, i2, j2);
-        }
+        for (auto w : word1)
+            w1 += w;
         
-        // Are they both at the end? (are both "words" the same size?)
-        return (i1 == word1.size() && i2 == word2.size() 
-                && j1 == 0 && j2 == 0);
+        for (auto w : word2) 
+            w2 += w;
+    
+        return w1 == w2;
     }
 };

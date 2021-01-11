@@ -40,7 +40,7 @@ public:
         
         int i1, i2;
         
-        queue<int> q;
+        queue<int, list<int>> q;
         
         for (i1 = 0; i1 < nums1.size(); ++i1) {
             if (!q.empty() && (i1 >= m || nums1[i1] > q.front()) && (i2 >= n || nums2[i2] > q.front())) {

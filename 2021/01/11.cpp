@@ -38,24 +38,14 @@ public:
         // nums1[i] <= nums1[i+1]
         // nums2[i] <= nums2[i+1]
         
-        int i1, i2;
+        int i = n + m - 1,
+            i1 = m - 1,
+            i2 = n - 1;
         
-        queue<int, list<int>> q;
-        
-        for (i1 = 0; i1 < nums1.size(); ++i1) {
-            if (!q.empty() && (i1 >= m || nums1[i1] > q.front()) && (i2 >= n || nums2[i2] > q.front())) {
-                if (i1 < m) 
-                    q.push(nums1[i1]);
-                
-                nums1[i1] = q.front();
-                q.pop();
-            } else if (i2 < n && (i1 >= m || nums1[i1] > nums2[i2])) {
-                if (i1 < m)
-                    q.push(nums1[i1]);
-                
-                nums1[i1] = nums2[i2];
-                i2++;
-            } // else keep nums1[i1] = nums1[i1]
-        }
+        while (i2 > -1) {
+            nums1[i--] = (i1 > -1 && nums1[i1] > nums2[i2]) 
+                ? nums1[i1--] 
+                : nums2[i2--];
+        } 
     }
 };

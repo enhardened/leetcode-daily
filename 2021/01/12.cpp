@@ -15,26 +15,24 @@ Title: Add Two Numbers
 class Solution {
 public:
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        ListNode* current;
         ListNode* prehead = new ListNode(0);
         ListNode* tail = prehead;
-        int sum, carry = 0;
+        int carry = 0;
         
         while (l1 != nullptr || l2 != nullptr) {
-            sum = carry;
+            current = new ListNode(carry + (l1 ? l1->val : 0) + (l2 ? l2->val : 0));
+            l1 = l1 ? l1->next : l1;
+            l2 = l2 ? l2->next : l2;
             
-            if (l1 != nullptr) {
-                sum += l1->val;
-                l1 = l1->next;
-            }
+            if (current->val > 9) {
+                current->val -= 10;
+                carry = 1;
+            } else
+                carry = 0;
             
-            if (l2 != nullptr) {
-                sum += l2->val;
-                l2 = l2->next;
-            }
-            
-            tail->next = new ListNode(sum % 10);
-            tail = tail->next;
-            carry = sum / 10;
+            tail->next = current;
+            tail = current;
         }
         
         if (carry)

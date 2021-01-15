@@ -5,45 +5,39 @@ Title: Minimum Operations to Reduce X to Zero
 class Solution {
 public:
     int minOperations(vector<int>& nums, int x) {
-        int result = -1,
-            l = 0,
+        int l = 0,
             r = 0,
-            n = nums.size(),
-            sum = 0;
+            n = nums.size();
+            
+        int target = 0;
         
         for (int i = 0; i < n; ++i) {
-            sum += nums[i];
+            target += nums[i];
         }
         
-        int sub_sum = sum - x;
+        target -= x;
         
-        // cout << "Sum of nums: " << sum << endl;
-        // cout << "Looking for the longest centralized array with sum of values = " << sub_sum << endl;
+        // cout << "Looking for the longest centralized array with sum of values = " << target << endl;
         
-        int c = nums[0];
+        int c = 0; // c indexes are now [l, r)
+        int longest = -1;
         
-        while (l < n && r < n) {
-            // cout << "l:" << l << "|r:" << r << "|c: " << c << "|res: " << result << endl;
+        while (l <= r && r <= n) {
+            // cout << "l:" << l << "|r:" << r << "|c: " << c << "|longest: " << longest << endl;
             
-            if (c == sub_sum) {
-                int subarray_size = (r - l + 1);
-                
-                // cout << "match " << c << " with " << subarray_size << " elements" << endl;
-                
-                result = (result == -1) 
-                    ? n - subarray_size
-                    : min(result, n - subarray_size);
-                
+            if (c == target)
+                longest = max(longest, r - l);
+            
+            if (c >= target)
                 c -= nums[l++];
-            } else if (c < sub_sum) {
-                c += nums[++r];
-            } else { // c > sub_sum
-                c -= nums[l++];
-            }
+            else
+                c += nums[r++];
         }
         
         // cout << "---" << endl;
         
-        return result;
+        return (longest > -1)
+            ? n - longest
+            : -1;
     }
 };

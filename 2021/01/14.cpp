@@ -10,16 +10,16 @@ public:
             n = nums.size();
             
         int target = 0;
-        
-        for (int i = 0; i < n; ++i) {
+        for (int i = 0; i < n; ++i)
             target += nums[i];
-        }
-        
         target -= x;
+        
+        if (target == 0) return n;
+        if (target < 0) return -1;
         
         // cout << "Looking for the longest centralized array with sum of values = " << target << endl;
         
-        int c = 0; // c indexes are now [l, r)
+        int c = 0;
         int longest = -1;
         
         while (l <= r && r <= n) {

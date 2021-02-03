@@ -18,16 +18,15 @@ n being the size of the linked list
 class Solution {
 public:
     bool hasCycle(ListNode *head) {
-        ListNode* verifier = new ListNode();
-        ListNode* tmp;
+        ListNode *fast = head,
+                 *slow = head;
         
-        while (head) {
-            if (head->next == verifier)
-                return true;
+        while (fast && fast->next) {
+            slow = slow->next;
+            fast = fast->next->next;
             
-            tmp = head->next;
-            head->next = verifier;
-            head = tmp;
+            if (slow == fast)
+                return true;
         }
         
         return false;

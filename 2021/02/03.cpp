@@ -10,17 +10,24 @@ Title: 141. Linked List Cycle
  *     ListNode(int x) : val(x), next(NULL) {}
  * };
  */
+/*
+Time: O(n) 
+Space: O(1)
+n being the size of the linked list
+*/
 class Solution {
 public:
     bool hasCycle(ListNode *head) {
-        unordered_set<ListNode *> viewedNodes;
+        ListNode* verifier = new ListNode();
+        ListNode* tmp;
         
         while (head) {
-            if (viewedNodes.count(head))
+            if (head->next == verifier)
                 return true;
             
-            viewedNodes.insert(head);
-            head = head->next;
+            tmp = head->next;
+            head->next = verifier;
+            head = tmp;
         }
         
         return false;

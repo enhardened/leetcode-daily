@@ -15,24 +15,25 @@ Title: Binary Tree Right Side View
  */
 class Solution {
 public:
-    void flat(TreeNode *node, int level, vector<int> *result) {
+    void flat(TreeNode *node, int level, int *maxRight, vector<int> *result) {
         if (!node) return; 
         
-        if (result->size() > level) {
-            result->at(level) = node->val;
-        } else {
+        if (level == *maxRight) {
             result->push_back(node->val);
+            (*maxRight)++;
         }
         
         ++level;
-        flat(node->left, level, result);
-        flat(node->right, level, result);
+        flat(node->right, level, maxRight, result);
+        flat(node->left, level, maxRight, result);
     }
     
     vector<int> rightSideView(TreeNode* root) {
         vector<int> result;
         
-        flat(root, 0, &result);
+        int maxRight = 0;
+        
+        flat(root, 0, &maxRight, &result);
         
         return result;
     }

@@ -15,25 +15,25 @@ Title: Binary Tree Right Side View
  */
 class Solution {
 public:
-    void dfs(TreeNode *node, int level, int *maxRight, vector<int> *result) {
+    vector<int> result;
+    
+    void dfs(TreeNode *node, int level, int *maxRight) {
         if (!node) return; 
         
         if (level == *maxRight) {
-            result->push_back(node->val);
+            result.push_back(node->val);
             (*maxRight)++;
         }
         
         ++level;
-        dfs(node->right, level, maxRight, result);
-        dfs(node->left, level, maxRight, result);
+        dfs(node->right, level, maxRight);
+        dfs(node->left, level, maxRight);
     }
     
     vector<int> rightSideView(TreeNode* root) {
-        vector<int> result;
-        
         int maxRight = 0;
         
-        dfs(root, 0, &maxRight, &result);
+        dfs(root, 0, &maxRight);
         
         return result;
     }

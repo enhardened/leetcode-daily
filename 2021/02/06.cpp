@@ -15,7 +15,7 @@ Title: Binary Tree Right Side View
  */
 class Solution {
 public:
-    void flat(TreeNode *node, int level, int *maxRight, vector<int> *result) {
+    void dfs(TreeNode *node, int level, int *maxRight, vector<int> *result) {
         if (!node) return; 
         
         if (level == *maxRight) {
@@ -24,8 +24,8 @@ public:
         }
         
         ++level;
-        flat(node->right, level, maxRight, result);
-        flat(node->left, level, maxRight, result);
+        dfs(node->right, level, maxRight, result);
+        dfs(node->left, level, maxRight, result);
     }
     
     vector<int> rightSideView(TreeNode* root) {
@@ -33,7 +33,7 @@ public:
         
         int maxRight = 0;
         
-        flat(root, 0, &maxRight, &result);
+        dfs(root, 0, &maxRight, &result);
         
         return result;
     }

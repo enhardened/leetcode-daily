@@ -21,6 +21,9 @@ Title: Peeking Iterator
  */
 
 class PeekingIterator : public Iterator {
+private:
+    bool hasPeeked = false;
+    int peekedElement;
 public:
 	PeekingIterator(const vector<int>& nums) : Iterator(nums) {
 	    // Initialize any member here.
@@ -29,20 +32,27 @@ public:
 	}
 	
     // Returns the next element in the iteration without advancing the iterator.
-	int peek() {
-        Iterator temp(dynamic_cast<Iterator&>(*this));
-        return temp.next();
+	int peek() {        
+        if (!hasPeeked) {
+            hasPeeked = true;
+            peekedElement = Iterator::next();
+        }
+        
+        return peekedElement;
 	}
 	
 	// hasNext() and next() should behave the same as in the Iterator interface.
 	// Override them if needed.
-    /*	
-    int next() {
-        return 0;
+	int next() {
+        if (hasPeeked) {
+            hasPeeked = false;
+            return peekedElement;
+        }
+        
+        return Iterator::next();
 	}
 	
 	bool hasNext() const {
-        return false;
+        return (hasPeeked || Iterator::hasNext());
 	}
-    */
 };

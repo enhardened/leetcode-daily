@@ -9,11 +9,20 @@ public:
         
         vector<int> result(n, INT_MAX);
         
+        int last = -n;
+        
         for (int i = 0; i < n; ++i) {
-            for (int j = 0; j < n; ++j) {
-                if (s[j] == c)
-                    result[i] = min(result[i], abs(i-j));
-            }
+            if (s[i] == c)
+                last = i;
+            
+            result[i] = i - last;
+        }
+        
+        for (int i = last; i >= 0; --i) {
+            if (s[i] == c)
+                last = i;
+            
+            result[i] = min(result[i], last - i);
         }
         
         return result;

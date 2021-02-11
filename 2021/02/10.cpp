@@ -17,57 +17,34 @@ public:
     }
 };
 */
-
 class Solution {
 public:
     Node* copyRandomList(Node* head) {
-        if (head == nullptr)
-            return nullptr;
+        unordered_map<Node*, Node*> nodeMap;
         
-        Node* newHead = new Node(head->val);
+        // Create a "fake head" so it won't need to handle the first node separatedly
+        Node* newRoot = new Node(0);
         
-        Node* newNode = newHead;
+        Node* newNode = newRoot;
         Node* oldNode = head;
-        Node* counter;
-        int count;
         
-        while (oldNode->next != nullptr) {
-            newNode->next = new Node(oldNode->next->val);
-            
+        while (oldNode) {
+            // Check if this node wasn't already created
+            if (nodeMap.count(oldNode) == 0)
+                nodeMap[oldNode] = new Node(oldNode->val);
+                
+            newNode->next = nodeMap[oldNode];
             newNode = newNode->next;
+            
+            // Create node reference in case it is after the current node
+            if (oldNode->random && nodeMap.count(oldNode->random) == 0) 
+                nodeMap[oldNode->random] = new Node(oldNode->random->val);
+            
+            newNode->random = nodeMap[oldNode->random];
+            
             oldNode = oldNode->next;
         }
         
-        // rewind to find random nodes
-        newNode = newHead;
-        oldNode = head;
-        
-        while (oldNode != nullptr) {
-            if (oldNode->random != nullptr) {
-                // Find the position of the random node
-                counter = head;
-                count = 0;
-                
-                while (counter != oldNode->random) {
-                    counter = counter->next;
-                    ++count;
-                }
-                
-                // Find the new random node by position
-                counter = newHead;
-                
-                while (count > 0) {
-                    counter = counter->next;
-                    --count;
-                }
-                
-                newNode->random = counter;
-            }
-            
-            newNode = newNode->next;
-            oldNode = oldNode->next;
-        }
-        
-        return newHead;
+        return newRoot->next;
     }
 };

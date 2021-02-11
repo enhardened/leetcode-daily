@@ -10,16 +10,20 @@ public:
         if (n != t.length())
             return false;
         
-        vector<int> charsInS(26);
-        vector<int> charsInT(26);
+        unordered_set<int> chars;
+        unordered_map<int, int> charsInS;
+        unordered_map<int, int> charsInT;
         
         for (int i = 0; i < n; ++i) {
-            ++charsInS[(int) s[i] - (int) 'a'];
-            ++charsInT[(int) t[i] - (int) 'a'];
+            chars.insert((int) s[i]);
+            chars.insert((int) t[i]);
+            
+            ++charsInS[(int) s[i]];
+            ++charsInT[(int) t[i]];
         }
         
-        for (int i = 0; i < 26; ++i) {
-            if (charsInS[i] != charsInT[i])
+        for (auto it = chars.begin(); it != chars.end(); ++it) {
+            if (charsInS[*it] != charsInT[*it])
                 return false;
         }
         

@@ -27,9 +27,7 @@ public:
         vector<tuple<int, int>> data(mat.size());
         
         for (int i = 0; i < mat.size(); ++i) {
-            int soldierCount = countSoldiers(mat[i]);
-            
-            data[i] = make_tuple(soldierCount, i);
+            data[i] = make_tuple(countSoldiers(mat[i]), i);
         }
         
         sort(data.begin(), data.end(), [](tuple<int, int> a, tuple<int, int> b) {

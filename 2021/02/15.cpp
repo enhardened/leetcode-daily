@@ -24,20 +24,21 @@ public:
     }
     
     vector<int> kWeakestRows(vector<vector<int>>& mat, int k) {
-        vector<tuple<int, int>> data(mat.size());
+        vector<pair<int, int>> data(mat.size());
         
         for (int i = 0; i < mat.size(); ++i) {
-            data[i] = make_tuple(countSoldiers(mat[i]), i);
+            data[i].first = countSoldiers(mat[i]);
+            data[i].second = i;
         }
         
-        sort(data.begin(), data.end(), [](tuple<int, int> a, tuple<int, int> b) {
-            return get<0>(a) < get<0>(b) || (get<0>(a) == get<0>(b) && get<1>(a) < get<1>(b));
+        sort(data.begin(), data.end(), [](pair<int, int> a, pair<int, int> b) {
+            return a.first < b.first || (a.first == b.first && a.second < b.second);
         });
         
         vector<int> result(k);
         
         for (int i = 0; i < k; ++i) {
-            result[i] = get<1>(data[i]);
+            result[i] = data[i].second;
         }
         
         return result;

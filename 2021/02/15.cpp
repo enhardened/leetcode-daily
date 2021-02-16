@@ -4,14 +4,30 @@ Title: The K Weakest Rows in a Matrix
 */
 class Solution {
 public:
+    int countSoldiers(vector<int>& row) 
+    {
+        int l = 0;
+        int r = row.size();
+        int m;
+        
+        while (l < r) {
+            m = (l + r) / 2;
+            
+            if (row[m] == 1) {
+                l = m + 1;
+            } else {
+                r = m;
+            }
+        }
+        
+        return l;
+    }
+    
     vector<int> kWeakestRows(vector<vector<int>>& mat, int k) {
         vector<tuple<int, int>> data(mat.size());
         
         for (int i = 0; i < mat.size(); ++i) {
-            int soldierCount = 0;
-
-            for (int j = 0; j < mat[i].size() && mat[i][j] == 1; ++j)
-                ++soldierCount;
+            int soldierCount = countSoldiers(mat[i]);
             
             data[i] = make_tuple(soldierCount, i);
         }

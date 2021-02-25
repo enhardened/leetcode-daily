@@ -1,5 +1,5 @@
 /*
-Problem: https://leetcode.com/explore/item/3649
+Problem: https://leetcode.com/problems/longest-word-in-dictionary-through-deleting
 Title: Longest Word in Dictionary through Deleting
 */
 class Solution {

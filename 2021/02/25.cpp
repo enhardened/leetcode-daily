@@ -2,10 +2,8 @@
 class Solution {
 public:
     int findUnsortedSubarray(vector<int>& nums) {
-        int n = nums.size();
-        int i;
         int l = 0,
-            r = n - 1;
+            r = nums.size() - 1;
         
         // find the longest sorted begining
         while (l < r && nums[l] <= nums[l + 1])
@@ -15,22 +13,11 @@ public:
         while (l < r && nums[r] >= nums[r-1])
             --r;
         
-        i = l;
-        while (i <= r && l >= 0)
-            if (nums[i] < nums[l])
-                --l;
-            else
-                ++i;
+        auto [minNum, maxNum] = minmax_element(nums.begin() + l, nums.begin() + r + 1);
         
-        i = r;
-        while (i > l && r < n)
-            if (nums[i] > nums[r])
-                ++r;
-            else
-                --i;
+        auto lb = upper_bound(nums.begin(), nums.begin() + l, *minNum);
+        auto rb = lower_bound(nums.begin() + r, nums.end(), *maxNum);
         
-        return l != r 
-            ? r - l - 1
-            : 0;
+        return distance(lb, rb);
     }
 };

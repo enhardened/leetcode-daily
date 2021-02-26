@@ -11,18 +11,16 @@ public:
         while (l < r && nums[l] <= nums[l + 1])
             ++l;
         
-        // search for numbers smaller than the ones in the sorted begining
-        // and adjust the left reference
+        // search for the longest sorted ending
+        while (l < r && nums[r] >= nums[r-1])
+            --r;
+        
         i = l;
-        while (i < n && l >= 0)
+        while (i <= r && l >= 0)
             if (nums[i] < nums[l])
                 --l;
             else
                 ++i;
-        
-        // search for the longest sorted ending
-        while (l < r && nums[r] >= nums[r-1])
-            --r;
         
         i = r;
         while (i > l && r < n)

@@ -3,15 +3,11 @@ class Solution {
 public:
     int distributeCandies(vector<int>& candyType) {
         int n = candyType.size();
-        int limit = n / 2;
-        int type_count = 1;
+        bitset<200001> types(0);
         
-        sort(candyType.begin(), candyType.end());
+        for (int i = 0; i < n; ++i)
+            types.set(100000 + candyType[i]);
         
-        for (int i = 1; i < n; ++i)
-            if (candyType[i] > candyType[i-1])
-                ++type_count;
-        
-        return min(limit, type_count);
+        return min(n / 2, (int) types.count());
     }
 };

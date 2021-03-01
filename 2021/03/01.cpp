@@ -4,9 +4,14 @@ public:
     int distributeCandies(vector<int>& candyType) {
         int n = candyType.size();
         int limit = n / 2;
+        int type_count = 1;
         
-        unordered_set<int> seen_types(candyType.begin(), candyType.end());
+        sort(candyType.begin(), candyType.end());
         
-        return min(limit, (int) seen_types.size());
+        for (int i = 1; i < n; ++i)
+            if (candyType[i] > candyType[i-1])
+                ++type_count;
+        
+        return min(limit, type_count);
     }
 };

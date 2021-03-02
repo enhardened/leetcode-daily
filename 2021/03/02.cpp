@@ -16,20 +16,47 @@ public:
         - the previous [1, 2, 3, 3], or 
         - the next element [1, 2, 4, 4]
         and return {i-1, i} for the first case or {i+1, i} on the second.
+        
+        ---
+        
+        Looks like the list is not always sorted. So, I can:
+        - sort the list, the space complexity would still be constant but time would be n*log(n)
+        - create an unordered_set from nums while searching for the duplicate in linear time
+          but increasing the space complexity to linear ()
+        - use a bitset instead of the unordered_set from the previous option, maintaining the linear time
+          but with constant worse-case space (10^4bits vs [2*32, (10^4)*32]bits)
+          
+        ---
+        
+        Looks like any number on the set could have been overwriten, 
+        not only the next or previous of the duplicated.
+        So, the sorting option is not really an option.
+        
+        I'll go first with the map option, which seens more straight forward and try bitset after.
         */
+        int n = nums.size();
+        bitset<10000> mask;
+        mask.flip();
         vector<int> result(2);
         
-        for (int i = 1; i <= nums.size(); ++i) {
-            int idx = i - 1;
+        for (auto num : nums) {
+            int idx = num - 1;
             
-            if (nums[idx] != i)
-                if (idx > 0 && nums[idx] == nums[idx - 1])
-                    return {i-1, i};
-                else
-                    return {i+1, i};
-        } 
+            if (!mask.test(idx))
+                result[0] = num;
+            
+            mask.reset(idx);
+        }
         
-        // Shoud never get to this point when the input is valid
-        throw invalid_argument("There are no errors on this list");
+        cout << mask << endl;
+        
+        for (int i = 0; i < n; ++i) {
+            if (mask.test(i)) {
+                result[1] = i+1;
+                break;
+            }
+        }
+        
+        return result;
     }
 };

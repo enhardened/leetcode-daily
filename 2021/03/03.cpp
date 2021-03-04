@@ -3,13 +3,13 @@ class Solution {
 public:
     int missingNumber(vector<int>& nums) {
         int n = nums.size();
+        int x = 0;
         
-        int expectedSum = ((1+n) * n) >> 1;
-        int actualSum = 0;
+        for (int i = 0; i < n; ++i) {
+            x ^= nums[i];
+            x ^= i;
+        }
         
-        for (auto num : nums)
-            actualSum += num;
-        
-        return expectedSum - actualSum;
+        return x ^ n;
     }
 };

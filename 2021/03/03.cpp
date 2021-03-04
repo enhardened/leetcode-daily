@@ -3,15 +3,13 @@ class Solution {
 public:
     int missingNumber(vector<int>& nums) {
         int n = nums.size();
-        vector<bool> helper(n+1, false);
+        
+        int expectedSum = ((1+n) * n) >> 1;
+        int actualSum = 0;
         
         for (auto num : nums)
-            helper[num] = true;
+            actualSum += num;
         
-        for (int i = 0; i <= n; ++i) 
-            if (!helper[i])
-                return i;
-        
-        throw invalid_argument("There are no missing numbers.");
+        return expectedSum - actualSum;
     }
 };

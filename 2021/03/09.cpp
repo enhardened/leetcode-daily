@@ -16,20 +16,28 @@ public:
         if (d == 1)
             return new TreeNode(v, root, nullptr);
         
-        queue<tuple<TreeNode*, int>, list<tuple<TreeNode*, int>>> q; // {node, depth}
-        q.push({root, 1});
+        queue<TreeNode*, list<TreeNode*>> q;
+        q.push(root);
+        
+        int depth = 1;
         
         while (!q.empty()) {
-            auto [node, depth] = q.front();
-            q.pop();
+            int depthLength = q.size();
             
-            if (depth == d - 1) {
-                node->left = new TreeNode(v, node->left, nullptr);
-                node->right = new TreeNode(v, nullptr, node->right);
-            } else {
-                if (node->left) q.push({node->left, depth + 1});
-                if (node->right) q.push({node->right, depth + 1});
+            for (int i = 0; i < depthLength; ++i) {
+                auto node = q.front();
+                q.pop();
+
+                if (depth == d - 1) {
+                    node->left = new TreeNode(v, node->left, nullptr);
+                    node->right = new TreeNode(v, nullptr, node->right);
+                } else {
+                    if (node->left) q.push(node->left);
+                    if (node->right) q.push(node->right);
+                }
             }
+            
+            ++depth;
         }
         
         return root;

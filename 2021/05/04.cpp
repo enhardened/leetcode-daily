@@ -5,41 +5,33 @@ public:
     bool checkPossibility(vector<int>& nums) 
     {
         int n = nums.size();
+        bool hasRemovedAnyElement = false;
         
         for (int i = 0; i < n - 1; i++)
         {
             if (nums[i] > nums[i+1])
             {
-                // try to remove any element
-                return isNonDecreasing(nums, i) || isNonDecreasing(nums, i+1);
+                if (hasRemovedAnyElement)
+                    return false;
+                
+                if (i == 0 || nums[i-1] <= nums[i+1])
+                {
+                    hasRemovedAnyElement = true;
+                    continue;
+                }
+                
+                if (i == n - 2 || nums[i] <= nums[i+2])
+                {
+                    hasRemovedAnyElement = true;
+                    i++;
+                    continue;
+                }
+                
+                return false;
             }
         }
         
         // Original vector is non decreasing
-        return true;
-    }
-    
-    bool isNonDecreasing(vector<int>& nums, int skipIndex)
-    {
-        int n = nums.size();
-            
-        if (skipIndex == n - 1)
-            n--;
-        
-        for (int i = 0; i < n - 1; i++) 
-        {
-            if (i == skipIndex)
-                continue;
-            
-            // Skip removed element
-            int next = (i + 1 == skipIndex)
-                ? i+2
-                : i+1;
-            
-            if (nums[i] > nums[next])
-                return false;
-        }
-        
         return true;
     }
 };

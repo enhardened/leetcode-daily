@@ -10,12 +10,10 @@ public:
         nonprimes.set(0);
         nonprimes.set(1);
         
-        int L = sqrt(n) + 1;
-        
-        for (int i = 2; i < L; i++)
+        for (int i = 2, I = sqrt(n) + 1; i < I; i++)
             if (!nonprimes.test(i))
-                for (int j = 2, r = i*j; r < n; j++, r = i*j)
-                    nonprimes.set(r);
+                for (int j = i*i; j < n; j += i)
+                    nonprimes.set(j);
         
         return n - nonprimes.count();
     }

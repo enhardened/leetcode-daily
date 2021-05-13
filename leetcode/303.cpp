@@ -2,20 +2,23 @@
 // URL: https://leetcode.com/problems/range-sum-query-immutable/
 class NumArray {
 public:
-    vector<int> *v;
+    vector<int> memo;
     
     NumArray(vector<int>& nums) {
-        this->v = &nums;
+        this->memo.resize(nums.size());
+        this->memo[0] = nums[0];
+            
+        for (int i = 1; i < nums.size(); ++i) {
+            this->memo[i] = this->memo[i-1] + nums[i];
+        }
     }
     
     int sumRange(int left, int right) {
-        int sum = 0;
-        
-        for (int i = left; i <= right; ++i) {
-            sum += (*v)[i];
+        if (left == 0) {
+            return memo[right];
         }
         
-        return sum;
+        return memo[right] - memo[left-1];
     }
 };
 

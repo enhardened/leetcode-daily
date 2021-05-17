@@ -15,37 +15,39 @@ class Solution {
 public:
     int result = 0;
     
-    unordered_set<TreeNode*> coveredNodes;
-    
     int minCameraCover(TreeNode* root) {
         dfs(root, nullptr);
-        
         return result;
     }
-    
-    bool isCovered(TreeNode *node) {
-        return !node || coveredNodes.count(node);
-    }
-    
-    void setCovered(TreeNode *node) {
-        if (node)
-            coveredNodes.insert(node);
-    }
-    
-    void dfs(TreeNode *node, TreeNode *parent) {
+
+    // return remaining coverage
+    // 1 if node is has a cam
+    // 0 if a child has a cam
+    // -1 if neither the node or both its children doesn't have a cam
+    int dfs(TreeNode *node, TreeNode *parent) {
         if (!node)
-            return;
+            return 0;
         
-        dfs(node->left, node);
-        dfs(node->right, node);
+        int lrd = dfs(node->left, node);
+        int rrd = dfs(node->right, node);
+        
+        bool isCovered = max(lrd, rrd) == 1;
+        bool hasUncoveredChild = min(lrd, rrd) == -1;
         
         // ---
-        if (!isCovered(node->right) || !isCovered(node->left) || (!isCovered(node) && !parent)) {
+        if (hasUncoveredChild) {
             result++;
-            setCovered(node);
-            setCovered(parent);
-            // children won't be visited again
+            return 1;
+        } else if (isCovered) {
+            return 0;
+        } else {
+            if (parent)
+                return -1;
+            
+            result++;
         }
         // ---
+        
+        return 0;
     }
 };

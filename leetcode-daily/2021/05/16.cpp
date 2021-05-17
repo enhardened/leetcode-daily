@@ -31,8 +31,8 @@ public:
         int lrd = dfs(node->left, node);
         int rrd = dfs(node->right, node);
         
-        bool isCovered = max(lrd, rrd) == 1;
-        bool hasUncoveredChild = min(lrd, rrd) == -1;
+        bool isCovered = lrd == 1 || rrd == 1;
+        bool hasUncoveredChild = lrd == -1 || rrd == -1;
         
         // ---
         if (hasUncoveredChild) {
